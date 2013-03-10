@@ -32,22 +32,6 @@
     return self;
 }
 
-- (void)rebuildLayers {
-    [_haloLayer removeFromSuperlayer];
-    _haloLayer = nil;
-    
-    [_dotLayer removeFromSuperlayer];
-    _dotLayer = nil;
-    
-    [self.layer addSublayer:self.haloLayer];
-    [self.layer addSublayer:self.dotLayer];
-}
-
-- (void)willMoveToSuperview:(UIView *)newSuperview {
-    if(newSuperview)
-        [self rebuildLayers];
-}
-
 #pragma mark - Setters
 
 - (void)setAnnotationColor:(UIColor *)annotationColor {
@@ -58,22 +42,19 @@
     }
     _annotationColor = annotationColor;
     
-    if(self.superview)
-        [self rebuildLayers];
+    [self rebuildLayers];
 }
 
 - (void)setDelayBetweenPulseCycles:(NSTimeInterval)delayBetweenPulseCycles {
     _delayBetweenPulseCycles = delayBetweenPulseCycles;
     
-    if(self.superview)
-        [self rebuildLayers];
+    [self rebuildLayers];
 }
 
 - (void)setPulseAnimationDuration:(NSTimeInterval)pulseAnimationDuration {
     _pulseAnimationDuration = pulseAnimationDuration;
     
-    if(self.superview)
-        [self rebuildLayers];
+    [self rebuildLayers];
 }
 
 #pragma mark - Getters
@@ -406,6 +387,19 @@
     CGColorSpaceRelease(colorSpace);
     
     return dotImage;
+}
+
+#pragma mark -
+
+- (void)rebuildLayers {
+    [_haloLayer removeFromSuperlayer];
+    _haloLayer = nil;
+    
+    [_dotLayer removeFromSuperlayer];
+    _dotLayer = nil;
+    
+    [self.layer addSublayer:self.haloLayer];
+    [self.layer addSublayer:self.dotLayer];
 }
 
 @end
